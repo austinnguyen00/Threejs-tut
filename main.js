@@ -27,7 +27,7 @@ scene.add(torus);
 
 // ADDING LIGHT
 const pointLight = new THREE.PointLight(0xfffff, 1);
-const ambientLight = new THREE.AmbientLight(0xfffff); // soft white light
+const ambientLight = new THREE.AmbientLight(0xfffff);
 pointLight.position.set(10, 10, 10);
 scene.add(pointLight, ambientLight);
 
@@ -36,7 +36,7 @@ const pointLightHelper = new THREE.PointLightHelper(pointLight);
 scene.add(pointLightHelper);
 
 // ADDING GRID HELPER
-const size = 200;
+const size = 50;
 const divisions = 50;
 
 const gridHelper = new THREE.GridHelper(size, divisions);
@@ -45,6 +45,22 @@ scene.add(gridHelper);
 // ORBIT CONTROL
 const controls = new OrbitControls(camera, renderer.domElement);
 
+// ADDING OBJECTS FUNCTIONS
+function addStar() {
+  const geometry = new THREE.SphereGeometry(0.25, 24, 24);
+  const material = new THREE.MeshBasicMaterial({ color: 0xffffff });
+  const star = new THREE.Mesh(geometry, material);
+
+  const [x, y, z] = Array(3).fill().map(() => THREE.MathUtils.randFloatSpread(100));
+  star.position.set(x, y, z);
+  scene.add(star);
+}
+
+Array(200).fill().forEach(addStar)
+
+// LOADING IMAGES TEXTURES
+const spaceTexture = new THREE.TextureLoader().load('space.jpg');
+scene.background = spaceTexture
 
 // UPDATE SCREEN EVERY TIME ITS UPDATED
 function animate() {
